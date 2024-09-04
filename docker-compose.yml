@@ -1,44 +1,43 @@
-version: '3.8'
+version: '3.8'  # Version of the Docker Compose file format
 
 services:
   frontend:
     build:
-      context: ./frontend/ecommerce  # The directory containing the Dockerfile for frontend
-      dockerfile: Dockerfile  # Specifying the Dockerfile name if different
+      context: ./frontend/ecommerce  # Path to the directory containing the Dockerfile for the frontend service
+      dockerfile: Dockerfile  # Name of the Dockerfile (default is "Dockerfile", but you can specify another name here)
     ports:
-      - "3000:3000"
+      - "3000:3000"  # Map port 3000 of the container to port 3000 on the host machine
     networks:
-      - my-network
+      - my-network  # Attach the frontend service to the "my-network" network
     depends_on:
-      - backend
+      - backend  # Ensure that the backend service starts before the frontend service
 
   backend:
     build:
-      context: ./backend/ecomproject  
-      dockerfile: dockerfile  
+      context: ./backend/ecomproject  # Path to the directory containing the Dockerfile for the backend service
+      dockerfile: dockerfile  # Name of the Dockerfile (make sure the name matches the actual Dockerfile)
     ports:
-      - "5015:5015"
+      - "5015:5015"  # Map port 5015 of the container to port 5015 on the host machine
     networks:
-      - my-network
+      - my-network  # Attach the backend service to the "my-network" network
     depends_on:
-      - mysql  
+      - mysql  # Ensure that the MySQL service starts before the backend service
 
   mysql:  
-    image: mysql:latest
+    image: mysql:latest  # Use the latest MySQL image from Docker Hub
     ports:
-      - "3306:3306" 
+      - "3306:3306"  # Map port 3306 of the container to port 3306 on the host machine
     environment:
-      MYSQL_DATABASE: my_database  
-      MYSQL_ROOT_PASSWORD: secret-pw 
+      MYSQL_DATABASE: my_database  # Set the name of the MySQL database to create
+      MYSQL_ROOT_PASSWORD: secret-pw  # Set the root password for MySQL
     volumes:
-      - mysqlvolume-data:/var/lib/mysql
+      - mysqlvolume-data:/var/lib/mysql  # Mount the named volume "mysqlvolume-data" to /var/lib/mysql in the container
     networks:
-      - my-network 
-
+      - my-network  # Attach the MySQL service to the "my-network" network
 
 volumes:
-  mysqlvolume-data:
-
+  mysqlvolume-data:  # Define the named volume "mysqlvolume-data" (Docker manages the storage location)
+  
 networks:
   my-network:
-    driver: bridge
+    driver: bridge  # Use the default bridge network driver

@@ -1,3 +1,1 @@
-Here is the content from the current branch.
-
-Here is the content from the branch you're merging in.
+3 tier architecture application , deploying using docker-compose with volume mount , seprate newtork config . 

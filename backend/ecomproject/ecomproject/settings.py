@@ -83,13 +83,16 @@ WSGI_APPLICATION = 'ecomproject.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/5.0/ref/settings/#databases
 
-
-
-
-
-
-
-
+DATABASES = {
+    'default': {
+        'ENGINE': 'django.db.backends.mysql',
+        'NAME': 'my_database',  # Must match MYSQL_DATABASE in docker-compose.yml
+        'USER': 'root',
+        'PASSWORD': 'secret-pw',  # Must match MYSQL_ROOT_PASSWORD in docker-compose.yml
+        'HOST': 'movie_recommendation_application--mysql-1',  # Use service name or container name
+        'PORT': '3306',
+    }
+}
 
 
 

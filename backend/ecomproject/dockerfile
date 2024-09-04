@@ -1,0 +1,37 @@
+# Stage 1: Build stage
+FROM python:3.8.18 as build
+
+# Set the working directory to /movie_recommender
+WORKDIR /movie_recommender
+
+# Copy the requirements file to the working directory
+COPY ./requirements.txt /movie_recommender/
+
+# Install any needed packages specified in requirements.txt
+RUN apt-get update && apt-get install -y gcc && \
+    pip install --no-cache-dir -r requirements.txt
+
+# Copy the rest of the application files into the container at /movie_recommender
+COPY . /movie_recommender
+
+# Stage 2: Final stage
+FROM python:3.8.18
+
+# Set the working directory to /movie_recommender
+WORKDIR /movie_recommender
+
+# Copy only the installed dependencies from the build stage
+COPY --from=build /usr/local/lib/python3.8/site-packages /usr/local/lib/python3.8/site-packages
+COPY --from=build /usr/local/bin /usr/local/bin
+
+# Copy the rest of the application files
+COPY . /movie_recommender
+
+# Define environment variable
+ENV NAME World
+
+# Expose port 5015 to the outside world
+EXPOSE 5015
+
+# Run app.py when the container launches
+CMD ["python", "manage.py", "runserver", "0.0.0.0:5015"]

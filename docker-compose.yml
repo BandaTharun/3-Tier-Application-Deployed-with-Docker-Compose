@@ -29,7 +29,7 @@ services:
       - "3306:3306" 
     environment:
       MYSQL_DATABASE: my_database  #specify a default database
-      
+      MYSQL_ROOT_PASSWORD: secret-pw 
     volumes:
       - mysqlvolume-data:/var/lib/mysql
     networks:

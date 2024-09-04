@@ -1,0 +1,44 @@
+version: '3.8'
+
+services:
+  frontend:
+    build:
+      context: ./frontend/ecommerce  # The directory containing the Dockerfile for frontend
+      dockerfile: Dockerfile  # Specify the Dockerfile name if different
+    ports:
+      - "3000:3000"
+    networks:
+      - my-network
+    depends_on:
+      - backend
+
+  backend:
+    build:
+      context: ./backend/ecomproject  # The directory containing the Dockerfile for backend
+      dockerfile: dockerfile  # Specify the Dockerfile name if different
+    ports:
+      - "5015:5015"
+    networks:
+      - my-network
+    depends_on:
+      - mysql  
+
+  mysql:  
+    image: mysql:latest
+    ports:
+      - "3306:3306" 
+    environment:
+      MYSQL_DATABASE: my_database  #specify a default database
+      
+    volumes:
+      - mysqlvolume-data:/var/lib/mysql
+    networks:
+      - my-network 
+
+
+volumes:
+  mysqlvolume-data:
+
+networks:
+  my-network:
+    driver: bridge

@@ -1,5 +1,3 @@
-<<<<<<< HEAD
-Your local changes here
-=======
-Changes from the remote repository here
->>>>>>> origin/main
+Here is the content from the current branch.
+
+Here is the content from the branch you're merging in.

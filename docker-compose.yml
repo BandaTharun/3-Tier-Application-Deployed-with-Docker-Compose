@@ -1,3 +1,5 @@
+# check for previous commint for docker compose build 
+
 version: '3.8'
 
 services:
